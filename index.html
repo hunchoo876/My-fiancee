@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>My Aysha Baby</title>
+<title>Matar Muhammad</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Figtree:wght@400;500&display=swap" rel="stylesheet">
@@ -168,20 +168,12 @@
     100% { transform: translateY(-115vh) translateX(var(--sway)); opacity: 0; }
   }
 
-  /* static version */
+  /* calmer version for phones with reduce-motion on: same slides, plain fades */
   .static { display: none; }
-  .reduced .glow { animation: none; }
-  .reduced .stage, .reduced .hint, .reduced .bar, .reduced .hearts { display: none; }
-  .reduced body, body.reduced { overflow: auto; }
-  .reduced .static {
-    display: block; max-width: 34rem; margin: 0 auto; padding: 4rem 1.75rem 5rem;
-    position: relative; text-align: center;
-  }
-  .static p {
-    font-family: var(--serif); font-weight: 300;
-    font-size: 1.7rem; line-height: 1.3; margin: 0 0 2.5rem;
-  }
-  .static .sign { opacity: 1; transform: none; }
+  .calm .glow { animation: none; }
+  .calm .hearts { display: none; }
+  .calm .w { filter: none; transform: none; transition: opacity 1s ease; transition-delay: calc(var(--i) * 90ms); }
+  .calm .line.out .w { filter: none; transform: none; }
 </style>
 </head>
 <body>
@@ -231,12 +223,9 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   sign.textContent = SIGN_OFF;
 
-  if (reduce) {
-    document.body.classList.add("reduced");
-    const s = $("static");
-    LINES.forEach(t => { const p = document.createElement("p"); p.textContent = t; s.appendChild(p); });
-    const g = document.createElement("div"); g.className = "sign"; g.textContent = SIGN_OFF; s.appendChild(g);
-  }
+  // Phones with "reduce motion" / "remove animations" / battery saver turned on get a calmer
+  // version: still one line at a time, just simple fades instead of blur and movement.
+  if (reduce) document.body.classList.add("calm");
 
   // hearts
   for (let i = 0; i < 16; i++) {
